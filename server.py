@@ -21,7 +21,7 @@ def format_risk_score(score: float) -> str:
 def classify_risk(risk_score: float) -> str:
     if risk_score >= 75.0:
         return "bad"
-    elif risk_score >= 50.0:
+    elif risk_score >= 45.0:
         return "good"
     else:
         return "uncertain"
