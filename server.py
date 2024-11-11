@@ -28,7 +28,7 @@ def classify_risk(risk_score: float) -> str:
 
 @app.get("/")
 def read_root():
-    return {"message": "URL Security Analyzer API"}
+    return {"message": "Link Guard Phishing Link Detection API"}
 
 @app.post("/analyze")
 async def analyze_url(url: str):
