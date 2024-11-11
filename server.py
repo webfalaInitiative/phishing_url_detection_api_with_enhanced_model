@@ -16,12 +16,12 @@ def is_valid_url(url: str) -> bool:
         return False
 
 def format_risk_score(score: float) -> str:
-    return f"{score:.2f}%"
+    return f"{score:.1f}%"
 
 def classify_risk(risk_score: float) -> str:
     if risk_score >= 75.0:
         return "bad"
-    elif risk_score >= 50.0:
+    elif risk_score >= 55.0:
         return "good"
     else:
         return "uncertain"
