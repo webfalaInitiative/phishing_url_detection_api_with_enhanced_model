@@ -103,7 +103,7 @@ ENV/
 *.db
 *.sqlite
 *.pkl
-*.joblib
+# *.joblib
 *.model
 *.ckpt
 *.weights
@@ -117,7 +117,7 @@ ENV/
 logs/
 
 # Model directories
-models/
+# models/
 saved_models/
 
 # Large binary or temporary files
