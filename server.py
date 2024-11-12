@@ -51,7 +51,7 @@ def classify_risk(risk_score: float) -> str:
 def read_root():
     return {"message": "Link Guard Phishing Link Detection API"}
 
-@app.post("/analyze". response_model=URLResponse)
+@app.post("/analyze", response_model=URLResponse)
 async def analyze_url(url_request: URLRequest):
     # Validate URL
     if not url_request.url:
