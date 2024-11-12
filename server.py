@@ -1,8 +1,18 @@
+from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from main import URLFeatureExtractor, URLSecurityModel
 from urllib.parse import urlparse
 import uvicorn
+
+class URLRequest(BaseModel):
+    url: str
+
+class URLResponse(BaseModel):
+    url: str
+    risk_score: str
+    risk_classification: str
+    features: dict
 
 app = FastAPI()
 
@@ -41,24 +51,24 @@ def classify_risk(risk_score: float) -> str:
 def read_root():
     return {"message": "Link Guard Phishing Link Detection API"}
 
-@app.post("/analyze")
-async def analyze_url(url: str):
+@app.post("/analyze". response_model=URLResponse)
+async def analyze_url(url_request: URLRequest):
     # Validate URL
-    if not url:
+    if not url_request.url:
         raise HTTPException(status_code=400, detail="URL cannot be empty")
     
-    if not is_valid_url(url):
+    if not is_valid_url(url_request.url):
         raise HTTPException(status_code=400, detail="Invalid URL format")
     
     try:
-        features = feature_extractor.extract_features(url)
+        features = feature_extractor.extract_features(url_request.url)
         feature_vector = [[features[name] for name in model.feature_names]]
         # Convert probability to percentage (multiply by 100)
         risk_score = float(model.model.predict_proba(feature_vector)[0][1] * 100)
         risk_classification = classify_risk(risk_score)
         
         return {
-            "url": url,
+            "url": url_request.url,
             "risk_score": format_risk_score(risk_score),
             "risk_classification": risk_classification,
             "features": features
