@@ -1,9 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from main import URLFeatureExtractor, URLSecurityModel
 from urllib.parse import urlparse
 import uvicorn
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
 feature_extractor = URLFeatureExtractor()
 model = URLSecurityModel(feature_extractor)
 model.load("./models/custom_model_domain_reps.joblib")
