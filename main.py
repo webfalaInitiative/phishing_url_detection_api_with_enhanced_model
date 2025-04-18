@@ -66,8 +66,8 @@ class URLInput(BaseModel):
 def root():
     return {"message": "Link Guard Phishing Link Detection API"}
 
-@app.post("/predict")
-async def predict_url(data: URLInput):
+@app.post("/analyze")
+async def analyze_url(data: URLInput):
     # Validate URL
     url = data.url.lower()
     if not url:
