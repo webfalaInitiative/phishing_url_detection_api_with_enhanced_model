@@ -100,9 +100,9 @@ ENV/
 *.tsv
 *.h5
 *.hdf5
-*.db
+#*.db
 *.sqlite
-*.pkl
+#*.pkl
 # *.joblib
 *.model
 *.ckpt
