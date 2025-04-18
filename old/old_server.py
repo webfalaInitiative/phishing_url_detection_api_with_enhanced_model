@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from main import URLFeatureExtractor, URLSecurityModel
+from old_main import URLFeatureExtractor, URLSecurityModel
 from urllib.parse import urlparse
 import uvicorn
 
@@ -13,6 +13,7 @@ class URLResponse(BaseModel):
     risk_score: str
     risk_classification: str
     features: dict
+
 
 app = FastAPI()
 
