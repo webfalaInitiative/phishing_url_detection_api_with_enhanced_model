@@ -54,7 +54,7 @@ app.add_middleware(
 # model = joblib.load(os.path.join(cur_dir, 'models', 'rf_model.pkl'))
 
 
-model = joblib.load("models/RandomForest.pkl")
+model = joblib.load("models/GradientBoosting.pkl")
 
 trusted_domains = {
     # Social Media
