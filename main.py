@@ -98,6 +98,8 @@ def root():
 async def analyze_url(url_request: URLRequest):
     # Validate URL
     url = url_request.url
+    cleaned_url = clean_url(url.lower())
+    print(cleaned_url, url)
     feedback = "correct"  # Always assume correct first
 
     if not url:
@@ -107,10 +109,10 @@ async def analyze_url(url_request: URLRequest):
         raise HTTPException(status_code=400, detail="Invalid URL format")
 
     try:
-        url_features = extract_features(url)
+        url_features = extract_features(cleaned_url)
         feature_df = pd.DataFrame(url_features, index=[0])
 
-        url_domain = urlparse(clean_url(url.lower())).netloc
+        url_domain = urlparse(cleaned_url).netloc
         if url_domain in trusted_domains:
             prediction = 0
             safe_score = 1.0
@@ -129,8 +131,7 @@ async def analyze_url(url_request: URLRequest):
             safety_score = f'{phishing_score * 100:.1f}%'
 
         features = [feature for feature in url_features.values()]
-        # url_record =
-        save_url_record(url=url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
+        save_url_record(url=cleaned_url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
                         URL_Depth=features[3], Redirection=features[4], https_Domain=features[5],
                         TinyURL=features[6], Prefix_Suffix=features[7], DNS_Record=features[8],
                         Web_Traffic=features[9], Domain_Age=features[10], Domain_End=features[11],
@@ -139,14 +140,14 @@ async def analyze_url(url_request: URLRequest):
                         Have_Currency=features[18], GoogleIndex=features[19], label=int(prediction), feedback=feedback
                         )
         url_info = {
-            'url_length': len(url),
-            'domain_length': len(urlparse(url)[1]),
-            'num_digits': sum(c.isdigit() for c in url),
-            'num_special_chars': len(re.findall(r'[^a-zA-Z0-9]', url)),
-            'excessive_delimiters': len(re.findall(r'[./-]', url)) > 5,
+            'url_length': len(cleaned_url),
+            'domain_length': len(urlparse(cleaned_url)[1]),
+            'num_digits': sum(c.isdigit() for c in cleaned_url),
+            'num_special_chars': len(re.findall(r'[^a-zA-Z0-9]', cleaned_url)),
+            'excessive_delimiters': len(re.findall(r'[./-]', cleaned_url)) > 5,
             'has_currency_symbol': bool(features[18]),
-            'domain_entropy': calculate_entropy(url),
-            'has_valid_tld': bool(tld.get_tld(url, fail_silently=True)),
+            'domain_entropy': calculate_entropy(cleaned_url),
+            'has_valid_tld': bool(tld.get_tld(cleaned_url, fail_silently=True)),
             'is_ip_address': bool(features[0]),
             'suspicious_patterns_count': features[17],
         }
