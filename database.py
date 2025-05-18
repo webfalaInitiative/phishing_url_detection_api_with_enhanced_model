@@ -66,3 +66,5 @@ def save_url_record(**data):
         session.add(record)
         session.commit()
         session.refresh(record)
+
+    return record

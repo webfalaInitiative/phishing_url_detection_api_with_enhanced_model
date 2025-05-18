@@ -131,14 +131,16 @@ async def analyze_url(url_request: URLRequest):
             safety_score = f'{phishing_score * 100:.1f}%'
 
         features = [feature for feature in url_features.values()]
-        save_url_record(url=cleaned_url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
-                        URL_Depth=features[3], Redirection=features[4], https_Domain=features[5],
-                        TinyURL=features[6], Prefix_Suffix=features[7], DNS_Record=features[8],
-                        Web_Traffic=features[9], Domain_Age=features[10], Domain_End=features[11],
-                        iFrame=features[12], Mouse_Over=features[13], Right_Click=features[14],
-                        Web_Forwards=features[15], Suspicious_Words=features[16], Suspicious_Patterns=features[17],
-                        Have_Currency=features[18], GoogleIndex=features[19], label=int(prediction), feedback=feedback
-                        )
+        record = save_url_record(
+            url=cleaned_url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
+            URL_Depth=features[3], Redirection=features[4], https_Domain=features[5],
+            TinyURL=features[6], Prefix_Suffix=features[7], DNS_Record=features[8],
+            Web_Traffic=features[9], Domain_Age=features[10], Domain_End=features[11],
+            iFrame=features[12], Mouse_Over=features[13], Right_Click=features[14],
+            Web_Forwards=features[15], Suspicious_Words=features[16], Suspicious_Patterns=features[17],
+            Have_Currency=features[18], GoogleIndex=features[19], label=int(prediction), feedback=feedback
+        )
+
         url_info = {
             'url_length': len(cleaned_url),
             'domain_length': len(urlparse(cleaned_url)[1]),
@@ -152,7 +154,10 @@ async def analyze_url(url_request: URLRequest):
             'suspicious_patterns_count': features[17],
         }
 
+        prediction_id = record.id
+
         context = {
+            'prediction_id': prediction_id,
             'url': url,
             'label': label,
             'safety_score': safety_score,
