@@ -59,7 +59,7 @@ model = joblib.load("models/GradientBoosting.pkl")
 trusted_domains = {
     # Social Media
     'facebook.com', 'instagram.com', 'twitter.com', 'linkedin.com', 'pinterest.com',
-    'reddit.com', 'tumblr.com', 'snapchat.com', 'tiktok.com',
+    'reddit.com', 'tumblr.com', 'snapchat.com', 'tiktok.com', 'whatsapp.com'
 
     # Tech Giants
     'google.com', 'youtube.com', 'microsoft.com', 'apple.com', 'amazon.com',
@@ -70,17 +70,25 @@ trusted_domains = {
     'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'protonmail.com',
 
     # E-commerce
-    'ebay.com', 'walmart.com', 'etsy.com', 'shopify.com', 'paypal.com',
+    'ebay.com', 'walmart.com', 'etsy.com', 'shopify.com', 'paypal.com', 'jumia.com', 'konga.com',
+    'jiji.ng',
 
     # Cloud Services
-    'aws.amazon.com', 'cloud.google.com', 'azure.microsoft.com', 'dropbox.com',
-    'salesforce.com',
+    'aws.amazon.com', 'cloud.google.com', 'azure.microsoft.com', 'dropbox.com', 'salesforce.com',
 
     # Banking (add major banks in your region)
-    'chase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
+    'chase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com', 'accessbankplc.com',
+    'ecobank.com', 'fidelitybank.ng', 'firstbanknigeria.com', 'fcmb.com', 'gtbank.com', 
+    'keystonebankng.com', 'titantrustbank.com', 'unionbankng.com', 'ubagroup.com', 'unitybankng.com',
+    'wemabank.com', 'zenithbank.com', 'optimusbank.com', 'parallexbank.com', 'polarisbanklimited.com',
+    'providusbank.com', 'stanbicibtcbank.com', 'sc.com', 'sterlingbankng.com', 'suntrustng.com',
 
     # Media
-    'cnn.com', 'bbc.com', 'nytimes.com', 'reuters.com', 'bloomberg.com'
+    'cnn.com', 'bbc.com', 'nytimes.com', 'reuters.com', 'bloomberg.com', 'channelstv.com',
+    'arise.tv', 'ait.live', 'tvcnews.tv',
+
+    # others
+    'thelinkguard.com', 'linkguard.com',
 }
 
 class URLRequest(BaseModel):
@@ -132,7 +140,7 @@ async def analyze_url(url_request: URLRequest):
 
         features = [feature for feature in url_features.values()]
         record = save_url_record(
-            url=cleaned_url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
+            url=url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
             URL_Depth=features[3], Redirection=features[4], https_Domain=features[5],
             TinyURL=features[6], Prefix_Suffix=features[7], DNS_Record=features[8],
             Web_Traffic=features[9], Domain_Age=features[10], Domain_End=features[11],

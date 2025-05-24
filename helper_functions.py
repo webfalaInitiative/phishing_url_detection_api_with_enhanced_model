@@ -1,20 +1,36 @@
 import numpy as np
+import tldextract
 from urllib.parse import urlparse, urlunparse
 
-def clean_url(url):
+# old
+# def clean_url(url):
+#     parsed = urlparse(url)
+
+#     # Check for www. and remove it
+#     netloc = parsed.netloc
+#     if netloc.startswith("www."):
+#         netloc = netloc.replace("www.", "", 1)
+
+#     # Force scheme to https
+#     scheme = "https"
+
+#     # Rebuild the URL
+#     cleaned = urlunparse((scheme, netloc, parsed.path, '', '', ''))
+#     return cleaned
+
+def clean_url(url: str) -> str:
+    # Parse using tldextract
+    extracted = tldextract.extract(url)
+    domain = f"{extracted.domain}.{extracted.suffix}"  # e.g. thelinkguard.com
+
+    # Keep the original path if needed
     parsed = urlparse(url)
+    path = parsed.path
 
-    # Check for www. and remove it
-    netloc = parsed.netloc
-    if netloc.startswith("www."):
-        netloc = netloc.replace("www.", "", 1)
-
-    # Force scheme to https
-    scheme = "https"
-
-    # Rebuild the URL
-    cleaned = urlunparse((scheme, netloc, parsed.path, '', '', ''))
+    # Rebuild a clean HTTPS URL with base domain only
+    cleaned = urlunparse(("https", domain, path, '', '', ''))
     return cleaned
+
 
 def is_valid_urlz(url: str) -> bool:
     try:
