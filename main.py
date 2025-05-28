@@ -88,7 +88,7 @@ trusted_domains = {
     'arise.tv', 'ait.live', 'tvcnews.tv',
 
     # others
-    'thelinkguard.com', 'linkguard.com',
+    'thelinkguard.com', 'linkguard.com', 'webfalainitiative.org',
 }
 
 class URLRequest(BaseModel):
