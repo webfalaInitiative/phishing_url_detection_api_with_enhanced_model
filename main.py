@@ -18,6 +18,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from feature_extraction import extract_features
 from helper_functions import clean_url, is_valid_url, calculate_entropy
 from database import init_db, save_url_record, engine, URLRecord
+from ai_chat import ChatRequest, ChatResponse, ai_chat
 
 init_db()
 
@@ -280,6 +281,14 @@ def download_short_data():
             }
         )
 
+
+@app.post("/chat", response_model=ChatResponse)
+def chat_with_bot(request: ChatRequest):
+    if not request.message.strip():
+        raise HTTPException(status_code=400, detail="Message cannot be empty")
+
+    ai_response = ai_chat(request.message)
+    return ChatResponse(response=ai_response)
 
 
 if __name__ == "__main__":
