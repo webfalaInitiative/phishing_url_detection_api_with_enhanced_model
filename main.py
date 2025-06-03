@@ -19,7 +19,6 @@ from feature_extraction import extract_features
 from helper_functions import clean_url, is_valid_url, calculate_entropy
 from database import init_db, save_url_record, engine, URLRecord
 
-
 init_db()
 
 app = FastAPI(
@@ -280,6 +279,8 @@ def download_short_data():
                 "Content-Disposition": "attachment; filename=linkguard_short_urls.csv"
             }
         )
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
