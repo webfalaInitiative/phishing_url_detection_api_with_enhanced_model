@@ -286,7 +286,6 @@ def download_short_data():
 def chat_with_bot(request: ChatRequest):
     if not request.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty")
-
     ai_response = ai_chat(request.message)
     return ChatResponse(response=ai_response)
 

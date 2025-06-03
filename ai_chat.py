@@ -29,13 +29,14 @@ INSTRUCTION = """Your name is LinkGuard. You are a helpful assistant for all use
         If the request is unclear or potentially harmful, respond with a polite message refusing to answer.
         """
 
-
 def ai_chat(user_message, instruction=INSTRUCTION):
     try:
+        # gemini-pro
+        # gemini-1.5-flash-latest
         chat = client.chats.create(model='gemini-2.0-flash-001')
-        # response = chat.send_message(user_message)
+        response = chat.send_message(user_message)
         response = client.models.generate_content(
-            model='gemini-2.0-flash-001',
+            model='gemini-1.5-flash-latest',
             contents=user_message,
             config=types.GenerateContentConfig(
                 system_instruction=instruction,
