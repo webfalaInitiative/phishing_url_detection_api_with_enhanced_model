@@ -14,7 +14,7 @@ from sqlmodel import Session, select
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException, Request, HTTPException
-from starlette.middleware.sessions import SessionMiddleware
+# from starlette.middleware.sessions import SessionMiddleware
 
 from feature_extraction import extract_features
 from helper_functions import clean_url, is_valid_url, calculate_entropy
