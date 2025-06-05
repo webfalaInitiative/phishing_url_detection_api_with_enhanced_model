@@ -13,7 +13,8 @@ from urllib.parse import urlparse
 from sqlmodel import Session, select
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request, HTTPException
+from starlette.middleware.sessions import SessionMiddleware
 
 from feature_extraction import extract_features
 from helper_functions import clean_url, is_valid_url, calculate_entropy
@@ -49,6 +50,8 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
 )
+SECRET_KEY = os.getenv("SECRET_KEY")
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 # cur_dir = os.path.dirname(__file__)
 # model = joblib.load(os.path.join(cur_dir, 'models', 'rf_model.pkl'))
@@ -283,11 +286,32 @@ def download_short_data():
 
 
 @app.post("/chat", response_model=ChatResponse)
-def chat_with_bot(request: ChatRequest):
+def chat(request: ChatRequest):
     if not request.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty")
     ai_response = ai_chat(request.message)
     return ChatResponse(response=ai_response)
+
+
+# this requires itsdangerous library, but can be implimented from the frontend
+# @app.post("/chat-with-session")
+# async def chat(request: Request, chat_input: ChatRequest):
+#     user_message = chat_input.message.strip()
+#     if not user_message:
+#         raise HTTPException(status_code=400, detail="Message cannot be empty")
+
+#     # Get previous chat history
+#     chat_history = request.session.get("chat_history", [])
+
+#     ai_response = ai_chat(user_message)
+
+#     chat_history.append({"sender": "user", "message": user_message})
+#     chat_history.append({"sender": "ai", "message": ai_response})
+#     request.session["chat_history"] = chat_history
+
+#     # return {"response": ai_response}
+#     return {"chat_history": chat_history}
+
 
 
 if __name__ == "__main__":
