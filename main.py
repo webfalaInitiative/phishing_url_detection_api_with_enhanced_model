@@ -50,8 +50,8 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
 )
-SECRET_KEY = os.getenv("SECRET_KEY")
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+# SECRET_KEY = os.getenv("SECRET_KEY")
+# app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 # cur_dir = os.path.dirname(__file__)
 # model = joblib.load(os.path.join(cur_dir, 'models', 'rf_model.pkl'))
