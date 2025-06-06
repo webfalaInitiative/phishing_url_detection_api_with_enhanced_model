@@ -110,7 +110,6 @@ async def analyze_url(url_request: URLRequest):
     # Validate URL
     url = url_request.url
     cleaned_url = clean_url(url.lower())
-    print(cleaned_url, url)
     feedback = "correct"  # Always assume correct first
 
     if not url:
