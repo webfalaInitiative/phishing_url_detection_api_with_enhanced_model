@@ -1,6 +1,11 @@
-from sqlmodel import Field, SQLModel, create_engine, Session, select
-from typing import Optional
+import os
 import datetime
+from typing import Optional
+from sqlmodel import Field, SQLModel, create_engine, Session, select
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 class URLRecord(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -30,8 +35,11 @@ class URLRecord(SQLModel, table=True):
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
 
 
-sqlite_url = "sqlite:///database.db"
-engine = create_engine(sqlite_url)
+# sqlite_url = "sqlite:///database.db"
+# engine = create_engine(sqlite_url)
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL, echo=True)
 
 def init_db():
     SQLModel.metadata.create_all(engine)
