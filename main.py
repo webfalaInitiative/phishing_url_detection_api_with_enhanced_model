@@ -126,20 +126,23 @@ async def analyze_url(url_request: URLRequest):
         if url_domain in trusted_domains:
             prediction = 0
             safe_score = 1.0
-            phishing_score = 0.0
+            # phishing_score = 0.0  # not in use, we need only the safe_score
             label = 'Safe'
         else:
             prediction = model.predict(feature_df)[0]
-            safe_score = model.predict_proba(feature_df)[0, 1]
-            phishing_score = model.predict_proba(feature_df)[0, 0]
+            safe_score = model.predict_proba(feature_df)[0, 0]
+            # phishing_score = model.predict_proba(feature_df)[0, 0]  # not in use, we need only the safe_score
             label = 'Safe' if prediction == 0 else 'Unsafe'
 
-        # 0 is Safe | 1 is Unsafe
-        if prediction == 0:
-            safety_score = f'{safe_score * 100:.1f}%'
-        else:
-            safety_score = f'{phishing_score * 100:.1f}%'
 
+        # 0 is Safe | 1 is Unsafe
+        # if prediction == 0:
+        #     safety_score = f'{safe_score * 100:.1f}%'
+        # else:
+        #     safety_score = f'{phishing_score * 100:.1f}%'
+
+        # currently in use
+        safety_score = f'{safe_score * 100:.1f}%'
         features = [feature for feature in url_features.values()]
         record = save_url_record(
             url=url, Have_IP=features[0], Have_At=features[1], URL_Length=features[2],
