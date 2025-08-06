@@ -112,9 +112,6 @@ async def analyze_url(url_request: URLRequest):
     cleaned_url = url.lower()
     feedback = "correct"  # Always assume correct first
     
-    print(url)
-    print(cleaned_url)
-
     if not url:
         raise HTTPException(status_code=400, detail="URL cannot be empty")
 
