@@ -57,7 +57,7 @@ app.add_middleware(
 # model = joblib.load(os.path.join(cur_dir, 'models', 'rf_model.pkl'))
 
 
-model = joblib.load("models/GradientBoosting.pkl")
+model = joblib.load("models/XGBClassifier.pkl")
 
 trusted_domains = {
     # Social Media
@@ -130,7 +130,7 @@ async def analyze_url(url_request: URLRequest):
             label = 'Safe'
         else:
             prediction = model.predict(feature_df)[0]
-            safe_score = model.predict_proba(feature_df)[0, 0]
+            safe_score = model.predict_proba(feature_df)[0][0]
             # phishing_score = model.predict_proba(feature_df)[0, 0]  # not in use, we need only the safe_score
             label = 'Safe' if prediction == 0 else 'Unsafe'
 
