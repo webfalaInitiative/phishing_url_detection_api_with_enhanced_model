@@ -31,8 +31,6 @@ INSTRUCTION = """Your name is LinkGuard. You are a helpful assistant for all use
 
 def ai_chat(user_message, instruction=INSTRUCTION):
     try:
-        # gemini-pro
-        # gemini-1.5-flash-latest
         # chat = client.chats.create(model='gemini-2.5-flash')
         # response = chat.send_message(user_message)
         response = client.models.generate_content(
