@@ -33,10 +33,10 @@ def ai_chat(user_message, instruction=INSTRUCTION):
     try:
         # gemini-pro
         # gemini-1.5-flash-latest
-        chat = client.chats.create(model='gemini-2.0-flash-001')
-        response = chat.send_message(user_message)
+        # chat = client.chats.create(model='gemini-2.5-flash')
+        # response = chat.send_message(user_message)
         response = client.models.generate_content(
-            model='gemini-1.5-flash-latest',
+            model='gemini-2.5-flash',
             contents=user_message,
             config=types.GenerateContentConfig(
                 system_instruction=instruction,
