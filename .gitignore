@@ -134,3 +134,4 @@ saved_models/
 
 # MacOS system files
 .DS_Store
+database.db
